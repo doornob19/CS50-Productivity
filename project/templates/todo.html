@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    To Do
+{% endblock %}
+
+{% block main %}
+    <form action="/todo" method="post">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="task" required placeholder="Task" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+
+{% endblock %}

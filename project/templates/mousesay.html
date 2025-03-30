@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Mouse Say
+{% endblock %}
+
+{% block main %}
+    <form action="/mousesay" method="post">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="text" required placeholder="Text" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Go</button>
+    </form>
+
+{% endblock %}

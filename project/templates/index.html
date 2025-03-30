@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Main Page
+{% endblock %}
+
+{% block main %}
+    {% if tasks %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="checkbox-col text-end">Status</th>
+                    <th class="task-col text-start">Task</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <!-- Checkbox form -->
+                    <td class="checkbox-col text-end">
+                        <form action="/" method="post">
+                            <input type="hidden" name="toggle_task" value="{{ task.id }}">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" onchange="this.form.submit()" {% if task.status == 'completed' %}checked{% endif %}>
+                            </div>
+                        </form>
+                    </td>
+
+                    <!-- Task text -->
+                    <td class="task-col text-start">
+                        <span class="{% if task.status == 'completed' %}text-muted text-decoration-line-through{% endif %}">
+                            {{ task.task }}
+                        </span>
+                    </td>
+
+                    <!-- Delete button form -->
+                    <td class="task-col text-middle">
+                        <form action="/" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm px-3 rounded-pill" name="delete" value="{{ task.id }}">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Clear All button-->
+        <form action="/" method="post">
+            <div class="text-end">
+                <button type="submit" class="btn btn-outline-danger btn-sm px-3" name="clear">Clear Tasks</button>
+            </div>
+        </form>
+    {% endif %}
+
+    <!-- Habits -->
+    {% if habits %}
+        <div class="habit-section container py-4 my-4 border rounded shadow-sm text-center">
+            {% for habit in habits %}
+                <div class="d-flex justify-content-center align-items-center gap-3 mb-2">
+                    <p class="h3">You have been {{ habit.habit }} for {{ habit.days }} days!</p>
+                    <form action="/habit" method="post">
+                        <button type="submit" class="btn btn-primary btn-sm px-4 rounded-pill" name="increment" value = "{{ habit.id }}">Add a Day</button>
+                    </form>
+                    <form action="/habit" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm px-4 rounded-pill" name="delete" value = "{{ habit.id }}">Delete</button>
+                </div>
+            {% endfor %}
+
+            <form action="/habit" method="post">
+                <button type="submit" class="btn btn-outline-danger" name="clear">Clear Habits</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
